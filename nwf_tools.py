@@ -1,7 +1,6 @@
 # nwf_tools.py for backyard-hacks-2020 by max
-import requests
-from bs4 import BeautifulSoup as bs
-import cssutils as cssu
+import requests as req
+from bs4 import BeautifulSoup
 import re
 import sys
 
@@ -13,10 +12,10 @@ def scrape_nwf(zip_code):
 		# parse the html sources for results of all species
 		found_flowers_grass = parse_html(flowers_grass_html)
 		found_trees_shrubs = parse_html(trees_shrubs_html)
-		# store all found species in list
-		found_species = [found_flowers_grass, found_trees_shrubs]
-		print("found species:\n\n", found_species)
-		return
+		# store all found species in list (all grouped together for now)
+		found_species = found_flowers_grass.extend(found_trees_shrubs)
+		# return all found species as combined list
+		return found_species
 
 def fetch_html(zip_code, flowers_grass = True):
 	'''takes in zip arg, gets and returns html from nwf.org using premade cookies'''
@@ -34,8 +33,8 @@ def fetch_html(zip_code, flowers_grass = True):
 # ref: https://stackoverflow.com/a/24982536
 def parse_html(webpage):
 	'''parses html for desired results, return list of targets'''
-	souped_page = bs.BeautifulSoup(webpage, 'html.parser') # parse page as bs obj
-	tile_section = souped_page.div('tiles') # store tile section for further parsing
+	souped_page = BeautifulSoup(webpage, "html.parser") # parse page as bs obj
+	tile_section = souped_page.find("div", class_="tiles") # store tile section for further parsing
 	# compile all individual tiles into list
 	all_tiles = tile_section.find_all("div", class_="tileContainer")
 	# make new list of only tiles with images (maybe add scraping from elsewhere later)
@@ -59,8 +58,10 @@ def parse_html(webpage):
 		family_name = all_tiles[i].find("span", class_="familyName").get_text()
 		# collect image url using regex pattern and style area from earlier
 		image_url = re.search(image_pattern, style_area).group(0)
+		# download image and take note of filepath
+		image_path = download_image(image_url)
 		# build sublist to store parsed information
-		tile_info = [common_name, image_url]
+		tile_info = [common_name, image_path]
 		# extra information for later usage, if time to add wikipedia lookups
 		extra_tile_info = [genera_name, family_name]
 		# add relevant info (just main stuff for now) to master list of valid species
@@ -68,10 +69,20 @@ def parse_html(webpage):
 	# return info sublists for all valid species
 	return all_valid_tiles
 
+# ref: https://www.tutorialspoint.com/downloading-files-from-web-using-python
 def download_image(image_url):
 	'''given image url, downloads image to local directory for offline use'''
-	# haven't decided if this should happen in class or here, yet
-	return
+	# define regex pattern for finding filename
+	filename_pattern = "(?<=filename\\=).{5,}"
+	# find the filename in the url
+	filename = re.search(filename_pattern, image_url).group(0)
+	# fetch the image at given url
+	fetched_image = req.get(image_url, allow_redirects=True)
+	# specify relative local save path (removed for simplicity, prob diff in mobile os)
+	# save_path = "./"
+	# save the image locally, using filename found earlier (wb = binary mode; no changes)
+	open(filename, 'wb').write(fetched_image.content)
+	return filename # return filename for later access
 
 def main(argv):
 	if (len(argv) != 2): # if not two args
@@ -81,4 +92,4 @@ def main(argv):
 	return scrape_nwf(argv[1])
 
 if __name__ == '__main__':
-	main()
+	main(sys.argv)

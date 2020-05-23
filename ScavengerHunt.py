@@ -33,16 +33,6 @@ class ScavengerHunt(Checklist):
 			new_huntlist = Checklist.__init__(self, huntlist_name, new_huntlist)
 		return new_huntlist # return new huntlist
 	def scrape_huntlist(self):
-		'''scrapes targets for huntlist based on location'''
-		html_source = self.fetch_html() # get html source from nwf.org
-		return
-	def fetch_html(self):
-		'''get and return html from nwf.org using premade cookies'''
-		# create cookies for request with zip
-		cookies = {'npfUser':'ZipCode={}'.format(self.get_location())}
-		# fetch html with get request
-		result = req.get('https://www.nwf.org/nativePlantFinder/plants', cookies=cookies)
-		return result.text # return html from response
-	def parse_html(self):
-		'''parses html for desired results'''
+		'''builds huntlist from targets grabbed based on location, using nwf_tools'''
+		nwft.scrape_nwf(self.get_location())
 		return
