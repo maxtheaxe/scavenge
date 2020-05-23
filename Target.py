@@ -18,6 +18,13 @@ class Target:
 	def set_found(self, new_status):
 		'''sets found status'''
 		self.found = new_status
+	def flip_found(self):
+		'''flips the found status to the opposite of current, returns new status'''
+		if self.get_found(): # if found status is already true
+			self.set_found(False) # change it to false
+		else: # otherwise, it was false to begin with
+			self.set_found(True) # so change it to true
+		return self.get_found() # return new status, in case info is desired
 	def get_picture(self):
 		'''returns picture'''
 		return self.picture

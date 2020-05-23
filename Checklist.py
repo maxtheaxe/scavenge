@@ -2,7 +2,7 @@
 
 class Checklist(Target):
 	'''list of target objects to be item_list'''
-	def __init__(self, label = "Current List", item_list = []):
+	def __init__(self, label = "Checklist", item_list = []):
 		self.label = label
 		self.item_list = item_list
 	def get_label(self):
@@ -25,6 +25,10 @@ class Checklist(Target):
 		cur_list = Target.get_target(self.get_item_list()) # gets list as it stands now
 		cur_list.insert(index, item) # inserts item at given point in list
 		self.set_item_list(cur_list) # set class field to modified list 
+	def checkoff_item(self, index):
+		'''check or uncheck item on checklist at given index, return new status'''
+		target_item = self.get_item(index) # grab item at index
+		return Target.flip_found(target_item) # flip the status, return new status
 	def display_checklist(self):
 		'''prints checklist items in nice format'''
 		target_string = "\t{}:\n".format(self.get_label())
