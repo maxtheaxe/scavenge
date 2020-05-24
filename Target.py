@@ -2,7 +2,7 @@
 
 class Target:
 	'''target object to be found by user/player'''
-	def __init__(self, name, found = False, picture):
+	def __init__(self, name, found, picture):
 		self.name = name
 		self.found = found
 		self.picture = picture
@@ -36,9 +36,13 @@ class Target:
 		return self
 	def target_info(self):
 		'''returns target info in nice format'''
-		target_string = "\tTarget: {}\n\tFound: {}".format(self.get_name(),
-			self.get_found())
+		# make string for holding "checkbox" to show whether found or not
+		found_str = "[ ]" # assumes not found
+		if self.get_found(): # if found, "checked" off
+			found_str = "[X]"
+		# build final string to print
+		target_string = "\t{} {}".format(found_str, self.get_name())
 		return target_string
-	def display_target(self):
-		'''returns target info in nice format'''
-		print self.target_info()
+	# def display_target(self):
+	# 	'''returns target info in nice format'''
+	# 	print self.target_info() # throwing errors??
