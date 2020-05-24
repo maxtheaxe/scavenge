@@ -89,6 +89,17 @@ class HuntScreen(Screen):
 			target_list.add_widget(target_box) # add the box with all components to the storage area
 	def end_pressed(self):
 		'''handles calling the end screen with relevant information'''
+		# update found statuses in actual checkbox object, using checkbox gui status
+		self.update_checkboxes(self.target_list_checkboxes)
+		# count num checked in finished list
+		total_found = 0 # go away, I'm sure there are better ways
+		for i in range(len(self.target_list_checkboxes)):
+			if self.target_list_checkboxes[i].active == True: # if the checkbox is checked
+				total_found += 1 # then add one to total
+		# get total possible
+		total_possible = len(self.target_list_checkboxes)
+		self.manager.screens[5].set_score(total_found, total_possible)
+		self.manager.current = 'end'
 		return
 	def image_pressed(self, box):
 		'''updates checkbox storage and image to be zoomed on press'''
@@ -128,6 +139,9 @@ class ImageScreen(ButtonBehavior, Screen):
 		self.ids['zoomed_image_name'].text = name
 	pass
 class EndScreen(Screen):
+	def set_score(self, found, possible):
+		'''fills in final score on end screen'''
+		self.ids['stats_display'].text = "Score: {}/{}".format(found, possible)
 	pass
 
 # create screen manager

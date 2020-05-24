@@ -95,7 +95,7 @@
 			text: 'End Hunt'
 			font_size: 30
 			size_hint: (1, 0.1)
-			on_press: root.manager.current = 'end'
+			on_press: root.end_pressed()
 
 <ImageScreen>:
 	name: 'image'
@@ -124,8 +124,14 @@
 			font_size: 50
 			size_hint: (1, 0.25)
 		BoxLayout:
+			size_hint: (1, 0.1)
+		Label:
 			id: stats_display
-			size_hint: (1, 0.5)
+			text: 'Score: X/Y'
+			font_size: 70
+			size_hint: (1, 0.2)
+		BoxLayout:
+			size_hint: (1, 0.2)
 		BoxLayout:
 			orientation: 'horizontal'
 			size_hint: (1, 0.25)
