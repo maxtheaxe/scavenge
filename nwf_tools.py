@@ -5,17 +5,17 @@ import re
 import sys
 
 def scrape_nwf(zip_code):
-		'''scrapes targets for huntlist based on location'''
-		# get html sources from nwf.org for all species
-		flowers_grass_html = fetch_html(zip_code)
-		trees_shrubs_html = fetch_html(zip_code, False)
-		# parse the html sources for results of all species
-		found_flowers_grass = parse_html(flowers_grass_html)
-		found_trees_shrubs = parse_html(trees_shrubs_html)
-		# store all found species in list (all grouped together for now)
-		found_species = found_flowers_grass.extend(found_trees_shrubs)
-		# return all found species as combined list
-		return found_species
+	'''scrapes targets for huntlist based on location'''
+	# get html sources from nwf.org for all species
+	flowers_grass_html = fetch_html(zip_code)
+	trees_shrubs_html = fetch_html(zip_code, False)
+	# parse the html sources for results of all species
+	found_flowers_grass = parse_html(flowers_grass_html)
+	found_trees_shrubs = parse_html(trees_shrubs_html)
+	# store all found species in list (all grouped together for now)
+	found_species = (found_flowers_grass + found_trees_shrubs)
+	# return all found species as combined list
+	return found_species
 
 def fetch_html(zip_code, flowers_grass = True):
 	'''takes in zip arg, gets and returns html from nwf.org using premade cookies'''
@@ -89,7 +89,7 @@ def main(argv):
 		# tell user how to use properly
 		print("\n\tError − Incorrect Syntax\n\n\tUse 'python nwf_tools.py [zip code]'\n")
 		sys.exit() # exit program
-	return scrape_nwf(argv[1])
+	print( scrape_nwf(argv[1]) ) # print found species
 
 if __name__ == '__main__':
 	main(sys.argv)
