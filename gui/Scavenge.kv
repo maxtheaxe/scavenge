@@ -1,0 +1,118 @@
+# scavenge! app (main.kv) for backyard-hacks-2020 by max
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+
+<ScreenManagement>:
+	transition: NoTransition()
+	StartScreen:
+	ZipScreen:
+	LoadingScreen:
+	HuntScreen:
+	EndScreen:
+
+<StartScreen>:
+	name: 'start'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		Label:
+			id: title
+			text: 'Scavenge!'
+			font_size: 50
+			size_hint: (1, 0.4)
+		Button:
+			id: get_location
+			text: 'Use Current Location'
+			size_hint: (1, 0.25)
+			on_press: root.manager.current = 'gps_loading'
+		Button:
+			id: enter_location
+			text: 'Enter Zip Code'
+			size_hint: (1, 0.25)
+			on_press: root.manager.current = 'zip'
+		Button:
+			id: get_help
+			text: 'Get Help'
+			size_hint: (1, 0.1)
+			on_press: root.manager.current = 'hunt'
+
+<ZipScreen>:
+	name: 'zip'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		BoxLayout:
+			size_hint: (1, 0.2)
+		TextInput:
+			id: zip_code
+			font_size: 50
+			size_hint: (1, 0.2)
+		BoxLayout:
+			size_hint: (1, 0.2)
+		Button:
+			id: start_button
+			text: 'Start'
+			size_hint: (1, 0.2)
+			on_press: root.manager.current = 'loading'
+		BoxLayout:
+			size_hint: (1, 0.2)
+
+<LoadingScreen>:
+	name: 'loading'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		BoxLayout:
+			size_hint: (1, 0.2)
+		Label:
+			text: 'Fetching Species...'
+			font_size: 50
+			size_hint: (1, 0.2)
+		BoxLayout:
+			size_hint: (1, 0.6)
+
+<HuntScreen>:
+	name: 'hunt'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		Label:
+			text: 'Hunt Name'
+			font_size: 50
+			size_hint: (1, 0.2)
+		BoxLayout:
+			id: huntlist_display
+			size_hint: (1, 0.7)
+		Button:
+			id: end_button
+			text: 'End Hunt'
+			font_size: 30
+			size_hint: (1, 0.1)
+			on_press: root.manager.current = 'end'
+
+<EndScreen>:
+	name: 'end'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		Label:
+			text: 'Are you sure?'
+			font_size: 50
+			size_hint: (1, 0.25)
+		BoxLayout:
+			id: stats_display
+			size_hint: (1, 0.5)
+		BoxLayout:
+			orientation: 'horizontal'
+			size_hint: (1, 0.25)
+			Button:
+				id: nevermind
+				text: 'Nvm'
+				font_size: 30
+				size_hint: (0.5, 1)
+				on_press: root.manager.current = 'hunt'
+			Button:
+				id: confirm
+				text: 'End'
+				font_size: 30
+				size_hint: (0.5, 1)
+				on_press: root.manager.current = 'start'
