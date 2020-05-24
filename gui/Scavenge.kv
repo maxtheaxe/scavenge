@@ -7,6 +7,7 @@
 	ZipScreen:
 	LoadingScreen:
 	HuntScreen:
+	ImageScreen:
 	EndScreen:
 
 <StartScreen>:
@@ -17,23 +18,26 @@
 		Label:
 			id: title
 			text: 'Scavenge!'
-			font_size: 50
+			font_size: 75
 			size_hint: (1, 0.4)
 		Button:
 			id: get_location
 			text: 'Use Current Location'
+			font_size: 30
 			size_hint: (1, 0.25)
 			on_press: root.manager.current = 'gps_loading'
 		Button:
 			id: enter_location
 			text: 'Enter Zip Code'
+			font_size: 30
 			size_hint: (1, 0.25)
 			on_press: root.manager.current = 'zip'
 		Button:
 			id: get_help
 			text: 'Get Help'
+			font_size: 20
 			size_hint: (1, 0.1)
-			on_press: root.manager.current = 'hunt'
+			on_press: root.manager.current = 'image'
 
 <ZipScreen>:
 	name: 'zip'
@@ -51,10 +55,12 @@
 		Button:
 			id: start_button
 			text: 'Start'
+			font_size: 30
 			size_hint: (1, 0.2)
-			on_press: root.manager.current = 'loading'
-		BoxLayout:
+			on_press: root.load_hunt(zip_code.text)
+		Label:
 			size_hint: (1, 0.2)
+			text: '(results will take a sec to download after pressing start)'
 
 <LoadingScreen>:
 	name: 'loading'
@@ -72,6 +78,7 @@
 
 <HuntScreen>:
 	name: 'hunt'
+	on_enter: root.populate_list()
 	BoxLayout:
 		orientation: 'vertical'
 		size_hint: (1, 1)
@@ -81,6 +88,7 @@
 			size_hint: (1, 0.2)
 		BoxLayout:
 			id: huntlist_display
+			orientation: 'vertical'
 			size_hint: (1, 0.7)
 		Button:
 			id: end_button
@@ -88,6 +96,23 @@
 			font_size: 30
 			size_hint: (1, 0.1)
 			on_press: root.manager.current = 'end'
+
+<ImageScreen>:
+	name: 'image'
+	# on_enter: root.populate_image()
+	on_press: root.manager.current = 'hunt'
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint: (1, 1)
+		Image:
+			id: zoomed_image
+			source: 'teethnoise.jpg'
+			size_hint: (1, 0.8)
+		Label:
+			id: zoomed_image_name
+			text: 'Target Name'
+			font_size: 30
+			size_hint: (1, 0.2)
 
 <EndScreen>:
 	name: 'end'

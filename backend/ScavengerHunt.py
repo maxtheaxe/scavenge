@@ -36,6 +36,12 @@ class ScavengerHunt(Checklist):
 	def get_huntlist(self):
 		'''returns huntlist'''
 		return self.huntlist
+	def get_hunt_item(self, index):
+		'''gets hunt item at given index'''
+		return self.get_huntlist().get_item(index)
+	def get_hunt_length(self):
+		'''returns the number of items in huntlist'''
+		return self.get_huntlist().get_item_list_length()
 	def set_huntlist(self, new_huntlist):
 		'''sets new huntlist from given arg'''
 		self.huntlist = new_huntlist

@@ -12,6 +12,8 @@ def main(argv):
 	local_hunt = ScavengerHunt(huntlist = None, hunt_name = None, location = argv[1])
 	# display the hunt
 	local_hunt.display_hunt()
+	# try getting hunt item
+	print("name: ", local_hunt.get_hunt_item(2).get_name())
 	# try "finding" stuff in the hunt
 	local_hunt.mark_item(2)
 	# display the hunt again to make sure it updated

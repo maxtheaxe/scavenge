@@ -14,7 +14,10 @@ class Checklist(Target):
 		self.label = new_label[:]
 	def get_item_list(self):
 		'''returns current item_list'''
-		return self.item_list[:]
+		return self.item_list
+	def get_item_list_length(self):
+		'''returns length of current checklist'''
+		return len(self.get_item_list())
 	def set_item_list(self, new_item_list):
 		'''sets item_list status'''
 		self.item_list = new_item_list[:]
