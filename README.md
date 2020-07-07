@@ -8,4 +8,4 @@ Using your zip code, it parses responses from the [National Wildlife Federation]
 I've never built a mobile application before (and only one GUI of any kind), so that was really tough to figure out. I spent the vast majority of my time trying to make the GUI and backend play nicely together.
 
 ## How to try it
-For now, I
+Unfortunately, for the time being, you'll need to clone the repository and [build any releases yourself](https://kivy.org/doc/stable/guide/packaging.html).
