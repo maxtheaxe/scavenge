@@ -16,6 +16,6 @@ Pillow==10.3.0
 Pygments==2.15.0
 pypiwin32==223
 pywin32==301
-requests==2.32.4
+requests==2.33.0
 soupsieve==2.0.1
 urllib3==2.6.0
